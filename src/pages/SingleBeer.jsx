@@ -1,16 +1,17 @@
 import React from 'react';
 import Header from '../components/Header';
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+
 import axios from 'axios';
 
-export default function SingleBeers() {
-  //function getBeersBoi (){
-  const [beers, setBeers] = useState([]);
+export default function AllBeers() {
+  const [beers, setBeers] = useState({});
+  const { id: beerId } = useParams();
 
   useEffect(() => {
     axios
-      .get('https://ih-beers-api2.herokuapp.com/beers')
+      .get(`https://ih-beers-api2.herokuapp.com/beers/${beerId}`)
       .then((response) => {
         console.log('beers date', response.data);
         setBeers(response.data);
@@ -21,15 +22,15 @@ export default function SingleBeers() {
 
   return (
     <div>
-      <Header />
-      {beers.map((beer) => (
-        <div key={beer._id} className="card">
-          <img src={beer.image_url} width="60px" alt="beer" />
-          <h3>{beer.name}</h3>
-          <p>{beer.contributed_by}</p>
-          <Link to={`/beers/${beer._id}`}>more details</Link>
-        </div>
-      ))}
+      <Header /><br/>
+
+      <img src={beers.image_url} width="60px" alt="beer" />
+      <h3>{beers.name}</h3>
+      <h5>{beers.tagline}</h5>
+      <p>First brewed: {beers.first_brewed}</p>
+      <p>Attenuation level: {beers.attenuation_level}</p>
+      <p>{beers.description}</p>
+      <p>Contributed by: {beers.contributed_by}</p>
     </div>
   );
 }

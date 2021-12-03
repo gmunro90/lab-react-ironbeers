@@ -1,11 +1,10 @@
 import React from 'react';
 import Header from '../components/Header';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useParams } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
 export default function AllBeers() {
-  //function getBeersBoi (){
   const [beers, setBeers] = useState([]);
 
   useEffect(() => {
